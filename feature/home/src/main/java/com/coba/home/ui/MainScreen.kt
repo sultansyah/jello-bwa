@@ -1,105 +1,119 @@
 package com.coba.home.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
-import com.coba.ui.components.JelloButtonPrimary
-import com.coba.ui.components.JelloEditText
-import com.coba.ui.components.JelloImageViewClick
-import com.coba.ui.components.JelloTextHeader
-import com.coba.ui.components.JelloTextRegular
-import com.coba.ui.components.JelloTextRegularWithClick
+import com.coba.ui.theme.VeryDarkGrayishBlue
 
 @Composable
-fun SignupScreen(
-    navController: NavController = rememberNavController(),
+fun MainScreen(
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 20.dp)
-            .background(Color.White)
+    val navController = rememberNavController()
+
+    Scaffold(
+        bottomBar = {
+            bottomNavigationBar(navController)
+        }
+    ) { innerPadding ->
+        NavigationGraph(
+            navController = navController,
+            modifier = Modifier.padding(innerPadding)
+        )
+    }
+}
+
+@Composable
+fun bottomNavigationBar(navController: NavController) {
+    val items = listOf(
+        BottomNavItem.Home,
+        BottomNavItem.Product,
+        BottomNavItem.Order,
+        BottomNavItem.Account
+    )
+
+    BottomNavigation(
+        backgroundColor = Color.White,
+        contentColor = Color.Black
     ) {
-        JelloImageViewClick(
-            onClick = {
-                navController.popBackStack()
-            }
-        )
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
 
-        Spacer(modifier = Modifier.height(30.dp))
+        items.forEach { item ->
+            BottomNavigationItem(
+                icon = {
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = item.title,
+                        tint = VeryDarkGrayishBlue
+                    )
+                },
+                label = {
+                    Text(
+                        text = item.title,
+                        style = TextStyle(
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Normal,
+                            lineHeight = 12.sp,
+                            textAlign = TextAlign.Center
+                        ),
+                        color = VeryDarkGrayishBlue
+                    )
+                },
+                selected = currentRoute == item.route,
+                onClick = {
+                    navController.navigate(item.route) {
+                        popUpTo(navController.graph.startDestinationId)
+                        launchSingleTop = true
+                    }
+                },
+                alwaysShowLabel = true
+            )
+        }
+    }
+}
 
-        JelloTextHeader(
-            text = "Create your account",
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        JelloTextRegularWithClick(
-            text = "Do you already have account ?",
-            textClick = " Sign In",
-            modifier = Modifier.padding(horizontal = 16.dp),
-            onClick = {
-                navController.popBackStack()
-            }
-        )
-
-        Spacer(modifier = Modifier.height(25.dp))
-
-        JelloTextRegular(
-            text = "Username",
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        JelloEditText(
-            value = "Username"
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        JelloTextRegular(
-            text = "E-mail",
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        JelloEditText()
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        JelloTextRegular(
-            text = "Password",
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        JelloEditText(
-            visualTransformation = PasswordVisualTransformation()
-        )
-
-        JelloButtonPrimary(
-            text = "Create account"
-        )
+@Composable
+fun NavigationGraph(navController: NavHostController, modifier: Modifier) {
+    NavHost(
+        navController = navController,
+        startDestination = BottomNavItem.Home.route,
+        modifier = modifier
+    ) {
+        composable(BottomNavItem.Home.route) {
+            HomeScreen()
+        }
+        composable(BottomNavItem.Product.route) {
+            ProductScreen()
+        }
+        composable(BottomNavItem.Order.route) {
+            OrderScreen()
+        }
+        composable(BottomNavItem.Account.route) {
+            AccountScreen()
+        }
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SignupScreenScreenPreview() {
-    SignupScreen()
+fun MainScreenScreenPreview() {
+    MainScreen()
 }
