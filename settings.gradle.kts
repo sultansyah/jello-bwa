@@ -23,3 +23,4 @@ rootProject.name = "Jello BWA"
 include(":app")
 include(":feature:auth")
 include(":core:ui")
+include(":feature:home")

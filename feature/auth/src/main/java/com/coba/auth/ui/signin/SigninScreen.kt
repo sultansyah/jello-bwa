@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.coba.auth.MainActivity
 import com.coba.ui.components.JelloButtonPrimary
 import com.coba.ui.components.JelloButtonSosmedRow
 import com.coba.ui.components.JelloEditText
@@ -53,7 +54,7 @@ fun SigninScreen(
             textClick = " Sign Up",
             modifier = Modifier.padding(horizontal = 16.dp),
             onClick = {
-                navController.navigate("signup")
+                navController.navigate(MainActivity.Screen.AuthSignup.route)
             }
 
         )
