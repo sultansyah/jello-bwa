@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.coba.ui.components.JelloButtonPrimary
 import com.coba.ui.components.JelloButtonSosmedRow
 import com.coba.ui.components.JelloEditText
@@ -23,7 +25,7 @@ import com.coba.ui.components.JelloTextViewRow
 
 @Composable
 fun SigninScreen(
-
+    navController: NavController = rememberNavController()
 ) {
     Column(
         modifier = Modifier
@@ -51,7 +53,7 @@ fun SigninScreen(
             textClick = " Sign Up",
             modifier = Modifier.padding(horizontal = 16.dp),
             onClick = {
-
+                navController.navigate("signup")
             }
 
         )
