@@ -1,4 +1,4 @@
-package com.coba.auth.ui.signin
+package com.coba.auth.ui.signup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -22,7 +22,7 @@ import com.coba.ui.components.JelloTextRegularWithClick
 import com.coba.ui.components.JelloTextViewRow
 
 @Composable
-fun SigninScreen(
+fun SignupScreen(
 
 ) {
     Column(
@@ -40,23 +40,35 @@ fun SigninScreen(
         Spacer(modifier = Modifier.height(30.dp))
 
         JelloTextHeader(
-            text = "Welcome to Login",
+            text = "Create your account",
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
         JelloTextRegularWithClick(
-            text = "Please fill E-mail & password to login your app account.",
-            textClick = " Sign Up",
+            text = "Do you already have account ?",
+            textClick = " Sign In",
             modifier = Modifier.padding(horizontal = 16.dp),
             onClick = {
 
             }
-
         )
 
         Spacer(modifier = Modifier.height(25.dp))
+
+        JelloTextRegular(
+            text = "Username",
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        JelloEditText(
+            value = "Username"
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
 
         JelloTextRegular(
             text = "E-mail",
@@ -66,6 +78,8 @@ fun SigninScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         JelloEditText()
+
+        Spacer(modifier = Modifier.height(10.dp))
 
         JelloTextRegular(
             text = "Password",
@@ -78,19 +92,14 @@ fun SigninScreen(
             visualTransformation = PasswordVisualTransformation()
         )
 
-        JelloTextViewRow()
-
-        JelloButtonPrimary()
-
-        JelloButtonSosmedRow(
-            onClickFacebook = {},
-            onClickGoogle = {}
+        JelloButtonPrimary(
+            text = "Create account"
         )
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SigninScreenPreview() {
-    SigninScreen()
+fun SignupScreenScreenPreview() {
+    SignupScreen()
 }
